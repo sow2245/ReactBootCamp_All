@@ -1,5 +1,66 @@
-#root{
+.left-Side {
+    float: left;
+    width: 50%;
+  }
+  
+
+.right-Side:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#rootReact{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
-    background-color: rgb(159, 240, 240);
+    background-color: violet;
     text-align : center;
 }
+
+#rootJSX{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: indigo;
+    text-align : center;
+}
+
+#rootPassAttr{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: blue;
+    text-align : center;
+}
+
+#rootCompositionComp{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: green;
+    text-align : center;
+}
+
+#rootFunComp{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: red;
+    text-align : center;
+}
+
+.right-Side{
+    margin: 15;
+}
+
+#logoId {
+    margin-left : 5%;
+    margin-right : 5;
+    width: 10%;
+}
+
+#searchBarId {
+    margin: 5;
+    width: 20%;
+}
+
+#loginButtonId{
+    margin: 5;
+    width: 10%;
+}
+
+#userIconId {
+    margin: 5;
+    width: 25%;
+  }

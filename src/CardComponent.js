@@ -1,5 +1,5 @@
 const CardComponent=(props)=>{
-    const teamMembers =props.teamMembers;
+    const teamMembers=props.teamMembers;
     return (
         <div id="card" className="cardClass">
             <img src={teamMembers.img}/>

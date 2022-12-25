@@ -95,13 +95,10 @@ const HeadingComponent=()=>(
 );
 
 
-const CardContainer=()=>
-{
-    const card=data.map((teamMembers)=>{
-        return <CardComponent teamMembers={teamMembers} key={teamMembers.id}/>
-    })
-    return card;
-};
+const CardContainer = () =>
+    data.map((teamMembers)=>(
+        <CardComponent teamMembers={teamMembers} key={teamMembers.id}/>
+    ));
 
 const BodyComponent=()=>(
     <div className="card-container">

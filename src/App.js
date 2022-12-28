@@ -1,92 +1,11 @@
 import React, { Fragment } from "react";
 import ReactDom from "react-dom/client";
 import CardComponent from "./CardComponent.js";
-import sowmyaImg from "./Img/Sowmya.png"
-
-const title = "Strom Troopers";
-
-const data=[
-    {
-        id:"00001",
-        // img:sowmyaImg,
-        name :"Punuru Sowmya Reddy",
-        company: "Landmark Health Pvt Ltd",
-        address :"Bangalore",
-        designation:"Senior Software Engineer"
-    },
-    {
-        id:"00002",
-        img:"",
-        name: "Shivam Pandey",
-        company: "Korber Supply Chain",
-        address: "Mirzapur",
-        designation:"Software Engineer"
-    },
-    {
-        id:"00003",
-        img:"",
-        name: "Harshita Mangla",
-        company: "GJUST",
-        address: "Faridabad",
-        designation:"Student"
-    },
-    {
-        id:"00004",
-        img:"",
-        name: "Sumathi",
-        company: "Capgemini",
-        address: "Guntur",
-        designation:"Software Engineer"
-    },
-    {
-        id:"00005",
-        img:"",
-        name: "Atul Singh",
-        company: "Appinventiv Technologies",
-        address: "Noida",
-        designation:"Software Engineer"
-    },
-    {
-        id:"00006",
-        img:"",
-        name: "Prajwali",
-        company: "Zeta",
-        address: "Bengaluru",
-        designation:"Senior Software Engineer"
-    },
-    {
-        id:"00007",
-        img:"",
-        name: "Pranav",
-        company: "ITC Infotech",
-        address: "Bengaluru",
-        designation:"Senior Software Engineer"
-    },
-    {
-        id:"00008",
-        img:"",
-        name: "Priya",
-        company: "Manhattan Associates",
-        address: "Bengaluru",
-        designation:"Software Engineer"
-    },
-    {
-        id:"00009",
-        img:"",
-        name: "Samridhi Pandey",
-        company: "HPE",
-        address: "Noida",
-        designation:"Software Engineer"
-    },
-    {
-        id:"00010",
-        img:"",
-        name: "Utpal Sangwan",
-        company: "Ramjas College",
-        address: "Vijaynagar",
-        designation:"Student"
-    }
-];
+import sowmyaImg from "./Img/Sowmya.png";
+import data from "./data.json"
+import { title } from "./Constants.js";
+import SearchComponent from "./SearchComponent.js";
+import { useState } from "react";
 
 const HeadingComponent=()=>(
 <div id="title" className="title-class" tabIndex="1">
@@ -94,17 +13,20 @@ const HeadingComponent=()=>(
 </div>
 );
 
-
-const CardContainer = () =>
-    data.map((teamMembers)=>(
+const CardContainer=({filteredData})=>
+    filteredData.map((teamMembers)=>(
         <CardComponent teamMembers={teamMembers} key={teamMembers.id}/>
     ));
 
-const BodyComponent=()=>(
+const BodyComponent=()=>{
+    const [filteredData,setFilteredData]=useState(data);
+    return(
     <div className="card-container">
-        <CardContainer></CardContainer>
-    </div>
-);
+        <SearchComponent setFilteredData={setFilteredData}/>
+        <CardContainer filteredData={filteredData}/>
+    </div>);
+};
+
 
 const AppLayout =()=>(
     <>

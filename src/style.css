@@ -16,3 +16,12 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+#searchBox
+{
+    margin: 8px;
+}
+
+.search{
+    margin-top: 13px;
+}

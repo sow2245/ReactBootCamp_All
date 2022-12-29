@@ -1,11 +1,10 @@
-import React, { Fragment } from "react";
+import React, { useState,useEffect } from "react";
 import ReactDom from "react-dom/client";
 import CardComponent from "./CardComponent.js";
-import sowmyaImg from "./Img/Sowmya.png";
 import data from "./data.json"
 import { title } from "./Constants.js";
 import SearchComponent from "./SearchComponent.js";
-import { useState } from "react";
+import NoResultsComponent from "./NoResultsComponent.js";
 
 const HeadingComponent=()=>(
 <div id="title" className="title-class" tabIndex="1">
@@ -13,17 +12,37 @@ const HeadingComponent=()=>(
 </div>
 );
 
-const CardContainer=({filteredData})=>
-    filteredData.map((teamMembers)=>(
+const CardContainer=({filteredData})=>{
+    return (!filteredData.length?  <NoResultsComponent/> : filteredData.map((teamMembers)=>(
         <CardComponent teamMembers={teamMembers} key={teamMembers.id}/>
-    ));
+    )));
+};
 
 const BodyComponent=()=>{
-    const [filteredData,setFilteredData]=useState(data);
+    const [listOfTeamMembers,setListOfTeamMembers]=useState([]);
+    const [filteredData,setFilteredData]=useState([]);
+    const [isSearched,setIsSearched]=useState(false);
+
+    useEffect(()=>{
+        getTeamMembersDataFromGit();
+    },[]);
+
+    async function getTeamMembersDataFromGit() {
+        const TeamMemberArr = [];
+        for (teamMem of data) {
+          const teamData = await fetch(
+            `https://api.github.com/users/${teamMem.gitlogin}`
+          );
+          const teamJsonData = await teamData.json();
+          TeamMemberArr.push(teamJsonData);
+        }
+        setListOfTeamMembers(TeamMemberArr);
+    };
+
     return(
     <div className="card-container">
-        <SearchComponent setFilteredData={setFilteredData}/>
-        <CardContainer filteredData={filteredData}/>
+        <SearchComponent listOfTeamMembers={listOfTeamMembers} setFilteredData={setFilteredData} setIsSearched={setIsSearched}/>
+        <CardContainer filteredData={isSearched ? (filteredData.length !=0 ? filteredData : <NoResultsComponent/>): listOfTeamMembers}/>
     </div>);
 };
 

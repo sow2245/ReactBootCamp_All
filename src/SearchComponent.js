@@ -1,18 +1,22 @@
 import { useState } from "react";
-import data from "./data.json";
 
-const searchTeamData=(searchText)=>{
-    const searchTextToLowerCase=searchText.toLowerCase();
-    return data.filter((team)=>
-       (team.name.toLowerCase().includes(searchTextToLowerCase)
-           || team.address.toLowerCase().includes(searchTextToLowerCase)
-               || team.company.toLowerCase().includes(searchTextToLowerCase)
-                   || team.designation.toLowerCase().includes(searchTextToLowerCase))
-    );
+const searchTeamData=(searchText,listOfTeamMembers,setIsSearched)=>{
+    //filtering data for multiple fields
+      const setValue = (searchText != "" || searchText != null);
+      setIsSearched(setValue);
+      const searchTextToLowerCase=searchText.toLowerCase();
+      return listOfTeamMembers?.filter((team)=>
+         (team.name.toLowerCase().includes(searchTextToLowerCase)
+             || team.location?.toLowerCase()?.includes(searchTextToLowerCase))
+      );
 };
 
-const SearchComponent =({setFilteredData})=>{
-    const [searchText,setSearchText] = useState();
+const SearchComponent =({listOfTeamMembers , setFilteredData , setIsSearched})=>{
+    const [searchText,setSearchText] = useState("");
+
+    const settingValueForSetSearchText=(e)=>{
+        setSearchText(e.target.value);
+    };
 
     return(
     <div className="search">
@@ -20,15 +24,13 @@ const SearchComponent =({setFilteredData})=>{
             onSubmit={
                 (e)=>{
                     e.preventDefault();
-                    const filteredData = searchTeamData(searchText);
+                    const filteredData = searchTeamData(searchText,listOfTeamMembers,setIsSearched);
                     setFilteredData(filteredData);
                 }
             }>
                 <input id="searchBox" placeholder="search" 
                        value={searchText}
-                       onChange={
-                        (e)=>{setSearchText(e.target.value);}
-                       }></input>
+                       onChange={settingValueForSetSearchText}></input>
                 <button>Search</button>
             </form>
     </div>

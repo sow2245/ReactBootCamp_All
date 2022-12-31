@@ -25,3 +25,7 @@
 .search{
     margin-top: 13px;
 }
+
+.noResults{
+    padding-left: 20px;
+}

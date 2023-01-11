@@ -1,78 +1,24 @@
-import React, { useState,useEffect, Children } from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDom from "react-dom/client";
-import CardComponent from "./Components/CardComponent.js";
-import data from "./Common/data.json"
-import { title } from "./Common/Constants.js";
-import SearchComponent from "./Components/SearchComponent.js";
-import NoResultsComponent from "./Components/NoResultsComponent.js";
-import { createBrowserRouter,RouterProvider,Outlet, Link } from "react-router-dom";
-import AboutUsComponent from "./Components/AboutUsComponent.js";
-import ErrorComponent   from "./Components/ErrorComponent.js"
+import AppLayoutComponent from "./Components/AppLayoutComponent.js";
+import ErrorComponent  from "./Components/ErrorComponent.js";
+import SearchTeamMembersComponent from "./Components/SearchTeamMembersComponent.js";
 import TeamMemberComponent from "./Components/TeamMemberComponent.js";
 import ProfileComponent from "./Components/ProfileComponent.js";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const HeadingComponent=()=>(
-<div id="title" className="title-class" tabIndex="1">
-    <h2>{title}</h2>
-</div>
-);
-
-
-const CardContainer=({filteredData})=>{
-    return (!filteredData.length?  <NoResultsComponent/> : filteredData.map((teamMembers)=>(
-        <Link to={`/teammember/${teamMembers.login}`}>
-        <CardComponent teamMembers={teamMembers} key={teamMembers.id}/>
-        </Link>
-    )));
-};
-
-const SearchTeamMembersComponent=()=>{
-    const [listOfTeamMembers,setListOfTeamMembers]=useState([]);
-    const [filteredData,setFilteredData]=useState([]);
-    const [isSearched,setIsSearched]=useState(false);
-
-    useEffect(()=>{
-        getTeamMembersDataFromGit();
-    },[]);
-
-    async function getTeamMembersDataFromGit() {
-        const TeamMemberArr = [];
-        for (teamMem of data) {
-          const teamData = await fetch(
-            `https://api.github.com/users/${teamMem.gitlogin}`
-          );
-          const teamJsonData = await teamData.json();
-          TeamMemberArr.push(teamJsonData);
-        }
-        setListOfTeamMembers(TeamMemberArr);
-    };
-
-    return(
-    <div className="card-container">
-        <SearchComponent listOfTeamMembers={listOfTeamMembers} setFilteredData={setFilteredData} setIsSearched={setIsSearched}/>
-        <CardContainer filteredData={isSearched ? (filteredData.length !=0 ? filteredData : <NoResultsComponent/>): listOfTeamMembers}/>
-    </div>);
-};
-
-
-const AppLayout =()=>(
-    <>
-    <HeadingComponent/>
-    <div className="body">
-        <Outlet/>
-    </div>
-    </>
-);
+const AboutUsComponent = lazy(()=>import("./Components/AboutUsComponent"));
+const SearchTeamMembersComponent = lazy(()=>import("./Components/SearchTeamMembersComponent.js"))
 
 const appRouter = createBrowserRouter([
     {
         path : "/",
-        element : <AppLayout/>,
+        element : <AppLayoutComponent/>,
         errorElement : <ErrorComponent/>,
         children : [
             {
                 path : "/searchteammembers",
-                element : <SearchTeamMembersComponent/>
+                element : <Suspense fallback={<h1>loading...</h1>}><SearchTeamMembersComponent/></Suspense>
             },
             {
                 path : "/teammember/:id",
@@ -80,7 +26,7 @@ const appRouter = createBrowserRouter([
             },
             {
                 path : "/aboutus",
-                element : <AboutUsComponent/>,
+                element : <Suspense fallback={<h1>loading...</h1>}><AboutUsComponent/></Suspense>,
                 children : [
                     {
                         path : "profile",

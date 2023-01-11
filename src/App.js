@@ -9,6 +9,7 @@ import { createBrowserRouter,RouterProvider,Outlet, Link } from "react-router-do
 import AboutUsComponent from "./Components/AboutUsComponent.js";
 import ErrorComponent   from "./Components/ErrorComponent.js"
 import TeamMemberComponent from "./Components/TeamMemberComponent.js";
+import ProfileComponent from "./Components/ProfileComponent.js";
 
 const HeadingComponent=()=>(
 <div id="title" className="title-class" tabIndex="1">
@@ -57,7 +58,9 @@ const SearchTeamMembersComponent=()=>{
 const AppLayout =()=>(
     <>
     <HeadingComponent/>
-    <Outlet/>
+    <div className="body">
+        <Outlet/>
+    </div>
     </>
 );
 
@@ -74,12 +77,18 @@ const appRouter = createBrowserRouter([
             {
                 path : "/teammember/:id",
                 element : <TeamMemberComponent/>
+            },
+            {
+                path : "/aboutus",
+                element : <AboutUsComponent/>,
+                children : [
+                    {
+                        path : "profile",
+                        element : <ProfileComponent name = {"Punuru Sowmya Reddy"}/>
+                    }
+                ]
             }
         ]
-    },
-    {
-        path : "/aboutus",
-        element : <AboutUsComponent/>
     }
 ]);
 

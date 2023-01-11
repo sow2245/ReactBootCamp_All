@@ -17,23 +17,15 @@
     flex-wrap: wrap;
 }
 
+#searchBox
+{
+    margin: 8px;
+}
+
 .search{
     margin-top: 13px;
-    width: 20%;
 }
 
 .noResults{
     padding-left: 20px;
-}
-
-.searchLink{
-    padding-right: 20px;
-}
-
-.searchDetails{
-    padding: 0;
-}
-
-#CitiesDropdown{
-    max-width: 500%;
 }
